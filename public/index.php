@@ -2,9 +2,18 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use App\AnimalRepository;
+use App\Database;
 use App\Animal;
 use App\Dog;
 use App\Cat;
 
-$dog = new Dog("Ferdo", 12, "male", 1, "doberman");
+$pdo = new Database();
+
+$connect = $pdo->getConnection();
+
+$repo = new AnimalRepository($connect);
+$animals = $repo->getAll();
+
+include __DIR__ . '/../views/dashboard.php';
 
