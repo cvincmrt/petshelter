@@ -8,9 +8,9 @@ abstract class Animal
     protected string $name;
     protected int $age;
     protected string $gender;
-    protected bool $is_adopted;
+    protected int $is_adopted;
 
-    public function __construct(string $name, int $age, string $gender, bool $is_adopted)
+    public function __construct(string $name, int $age, string $gender, int $is_adopted)
     {
         $this->name = $name;
         $this->age = $age;
