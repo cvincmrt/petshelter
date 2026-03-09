@@ -20,12 +20,19 @@ class AnimalRepository
         $stmt = $this->db->query($sql);
 
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            $pet = null;
+
             if($row["type"] === "Cat"){
                 $pet = new Cat($row["name"], (int)$row["age"], $row["gender"], (int)$row["is_adopted"], (int)$row["spec_param"]);
             }elseif($row["type"] === "Dog"){
                 $pet = new Dog($row["name"], (int)$row["age"], $row["gender"], (int)$row["is_adopted"], $row["spec_param"]);
             }
-            $pets[] = $pet;
+
+            if($pet){
+                $pet->setId((int)$row["id"]);
+                $pets[] = $pet;
+            }
+            
         }
         return $pets;
     }

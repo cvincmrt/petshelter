@@ -1,11 +1,51 @@
-<!DOCTYPE html>
+<?php
+use App\Cat;
+use App\Dog;
+
+?>
+
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PetShelter</title>
-</head>
-<body>
-    ahoj
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  </head>
+  <body>
+    <h1>Petshelter manage</h1>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Stav</th>
+                <th scope="col">Spec_param</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($animals as $animal): ?>
+                <tr>
+                    <td><?= $animal->getName(); ?></td>
+                    <td><?= $animal->getAge(); ?></td>
+                    <td><?= $animal->getGender(); ?></td>
+                    <td><?= $animal->getIsAdopted() ? "ma rodinu" : "adoptovat";  ?></td>
+                    <td><?php 
+                        if($animal instanceof Dog){
+                             echo $animal->getBreed(); 
+                        }elseif($animal instanceof Cat){
+                            echo $animal->getIsOutdoor() ? "vhodna na von" : "len dnu";
+                        }
+                        ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>        
+        </tbody>
+    </table>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  </body>
 </html>

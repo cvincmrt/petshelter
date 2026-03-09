@@ -15,4 +15,8 @@ class Cat extends Animal
     public function getSound(){
         return "Mnau mnau mnau";
     }
+
+    public function getIsOutdoor(){
+        return $this->is_outdoor;
+    }
 }

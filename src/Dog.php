@@ -14,4 +14,8 @@ class Dog extends Animal
     public function getSound(){
         return "baf baf baf";
     }
+
+    public function getBreed(){
+        return $this->breed;
+    }
 }
