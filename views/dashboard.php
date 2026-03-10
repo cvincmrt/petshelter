@@ -14,38 +14,77 @@ use App\Dog;
   </head>
   <body>
     <h1>Petshelter manage</h1>
+    <div class="container">
+        <form class="row g-3" method="POST">
+            <div class="col-2">
+                <input type="text" class="form-control" id="fName" name="fName" placeholder="Name">
+            </div> 
+            <div class="col-1">
+                <input type="text" class="form-control" id="fType" name="fType" placeholder="Type">
+            </div>
+            <div class="col-1">
+                <input type="text" class="form-control" id="fAge" name="fAge" placeholder="Age">
+            </div>
+            <div class="col-2">
+                <input type="text" class="form-control" id="fGender" name="fGender" placeholder="Gender">
+            </div> 
+            <div class="col-2">
+                <input type="text" class="form-control" id="fStav" name="fStatus" placeholder="adopt/at home">
+            </div>
+            <div class="col-2">
+                <input type="text" class="form-control" id="fSpecParam" name="fSpecParam" placeholder="<?php ?>breed/outdoor">
+            </div>
 
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                
-                <th scope="col">Name</th>
-                <th scope="col">Age</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Stav</th>
-                <th scope="col">Spec_param</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach($animals as $animal): ?>
+            <div class="col-2">
+                <button type="submit" class="btn btn-primary" name="addPet" value="addPet">Add PET</button>
+            </div>
+        </form><br>
+
+
+        <table class="table table-striped table-hover">
+            <thead>
                 <tr>
-                    <td><?= $animal->getName(); ?></td>
-                    <td><?= $animal->getAge(); ?></td>
-                    <td><?= $animal->getGender(); ?></td>
-                    <td><?= $animal->getIsAdopted() ? "ma rodinu" : "adoptovat";  ?></td>
-                    <td><?php 
-                        if($animal instanceof Dog){
-                             echo $animal->getBreed(); 
-                        }elseif($animal instanceof Cat){
-                            echo $animal->getIsOutdoor() ? "vhodna na von" : "len dnu";
-                        }
-                        ?>
-                    </td>
+                    
+                    <th scope="col">Name</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Spec_param</th>
+                   
                 </tr>
-            <?php endforeach; ?>        
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php foreach($animals as $animal): ?>
+                    <tr>
+                        <td><?= $animal->getName(); ?></td>
+                        <td><?= $animal->getAge(); ?></td>
+                        <td><?= $animal->getGender(); ?></td>
+                        <td>
+                            <?php if($animal->getIsAdopted()):  ?>
+                                 <form method="POST">
+                                    <input type="hidden" name="animal_id" value="<?= $animal->getId(); ?>">
+                                    <input type="submit" name="adopt" class="btn btn-sm btn-outline-danger" value="adopt">
+                                </form>
+                                
+                            <?php else: ?>
+                               <span class="badge bg-success">at home</span>
+                            <?php endif; ?>
+                        </td>
+
+
+                        <td><?php 
+                            if($animal instanceof Dog){
+                                echo $animal->getBreed(); 
+                            }elseif($animal instanceof Cat){
+                                echo $animal->getIsOutdoor() ? "outdoor" : "indoor";
+                            }
+                            ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>        
+            </tbody>
+        </table>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>
 </html>
