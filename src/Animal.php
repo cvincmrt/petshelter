@@ -2,15 +2,15 @@
 
 namespace App;
 
-class Animal
+abstract class Animal
 {
     protected int $id;
     protected string $name;
     protected int $age;
     protected string $gender;
-    protected bool $is_adopted;
+    protected int $is_adopted;
 
-    public function __construct(string $name, int $age, string $gender, bool $is_adopted)
+    public function __construct(string $name, int $age, string $gender, int $is_adopted)
     {
         $this->name = $name;
         $this->age = $age;
@@ -22,9 +22,24 @@ class Animal
     {
         $this->id = $id;
     }
-
-    public function getSound()
-    {
-        return "sound";    
+    public function getId(){
+        return $this->id;
     }
+
+    abstract public function getSound();
+
+    public function getName(){
+        return $this->name;
+    }
+    public function getAge(){
+        return $this->age;
+    }
+    public function getGender(){
+        return $this->gender;
+    }
+
+    public function getIsAdopted(){
+        return $this->is_adopted;
+    }
+    
 }
