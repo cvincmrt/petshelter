@@ -22,8 +22,8 @@ if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["addPet"]) && $_POST["a
     $name = $_POST["fName"];
     $type = $_POST["fType"];
     $age = (int)($_POST["fAge"]);
-    $gender = $_POST["fGender"];
-    $status = $_POST["fStatus"] !== "adopt" ? 0 : 1;
+    $gender = (int)$_POST["fGender"];
+    $status = $_POST["fStatus"] === "adopt" ? 0 : 1;
     $specParam = $_POST["fSpecParam"] === "outdoor" ? 1 : $_POST["fSpecParam"];
 
  var_dump($name, $type, $age, $gender, $status, $specParam);
@@ -55,6 +55,3 @@ $animals = $repo->getAll();
 
 include __DIR__ . '/../views/dashboard.php';
 
-$dog->setId(1);
-
-var_dump($dog);
