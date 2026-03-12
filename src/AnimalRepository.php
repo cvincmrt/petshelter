@@ -41,29 +41,39 @@ class AnimalRepository
         $sql = "UPDATE animals SET is_adopted = 1 WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         
-        if($stmt->execute([":id" => $id])){
-            header("Location:index.php");
-            exit();
-        }
-
+        return $stmt->execute([":id" => $id]);
     }
 
-    public function createPet($pet){
+    public function createPet(Animal $pet){
         $sql = "INSERT INTO animals (type, name, age, gender, is_adopted, spec_param) VALUES (:type, :name, :age, :gender, :is_adopted, :spec_param)";
         $stmt = $this->db->prepare($sql);
 
-        var_dump($pet);
-        
-        if($stmt->execute([
-            ":type" => $pet instanceof Dog ? "Dog" : "Cat",
-            ":name" => $pet->getName(),
-            ":age" => $pet->getAge(),
-            ":gender" => $pet->getGender(),
-            ":is_adopted" => $pet->getIsAdopted(),
-            ":spec_param" => $pet instanceof Dog ? $pet->getBreed() : $pet->getIsOutdoor()
-        ])){
-            header("Location:index.php");
-            exit();
+        $type = basename(get_class($pet));
+
+        $spec_param = "";
+
+        if($pet instanceof Dog){
+            $spec_param = $pet->getBreed(); 
+        }elseif($pet instanceof Cat){
+            $spec_param = $pet->getIsOutdoor() ? 1 : 0;
         }
+              
+        return $stmt->execute([
+                ":type" => $type,
+                ":name" => $pet->getName(),
+                ":age" => $pet->getAge(),
+                ":gender" => $pet->getGender(),
+                ":is_adopted" => $pet->getIsAdopted(),
+                ":spec_param" => $spec_param
+                ]);
+    }
+
+    public function deletePet($id){
+        $sql = "DELETE FROM animals WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        
+        return $stmt->execute([":id" => $id]);
+
+          
     }
 }

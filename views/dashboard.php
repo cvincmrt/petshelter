@@ -13,10 +13,11 @@ use App\Dog;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   </head>
   <body>
-    <h1>Petshelter manage</h1>
+    
     <div class="container">
-       
-    <?php include "addPet.php"; ?>
+       <h1>Petshelter manage</h1><br>
+
+    <?php include "addPet.php"; ?><br><br>  
 
         <table class="table table-striped table-hover">
             <thead>
@@ -27,7 +28,7 @@ use App\Dog;
                     <th scope="col">Gender</th>
                     <th scope="col">Status</th>
                     <th scope="col">Spec_param</th>
-                   
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,13 +39,13 @@ use App\Dog;
                         <td><?= $animal->getGender(); ?></td>
                         <td>
                             <?php if($animal->getIsAdopted()):  ?>
-                                 <span class="badge bg-success">at home</span>
+                                 <span class="badge bg-success p-2">at home</span>
                                 
                             <?php else: ?>
                                
                                <form method="POST">
                                     <input type="hidden" name="animal_id" value="<?= $animal->getId(); ?>">
-                                    <input type="submit" name="adopt" class="btn btn-sm btn-outline-danger" value="adopt">
+                                    <input type="submit" name="action" class="btn btn-sm btn-outline-danger" value="adopt">
                                 </form>
                             <?php endif; ?>
                         </td>
@@ -58,6 +59,12 @@ use App\Dog;
                             }
                             ?>
                         </td>
+                        <td>
+                           <form method="POST">
+                                <input type="hidden" name="animal_id" value="<?= $animal->getId(); ?>">
+                                <input class="btn btn-sm btn-danger" type="submit" name="action" value="delete">
+                           </form>
+                        </td> 
                     </tr>
                 <?php endforeach; ?>        
             </tbody>

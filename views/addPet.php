@@ -19,7 +19,7 @@
     </div>
 
     <div class="col-2">
-        <button type="submit" class="btn btn-primary" name="addPet" value="addPet">Add PET</button>
+        <button type="submit" class="btn btn-primary" name="action" value="create">Add PET</button>
     </div>
     
 </form><br>

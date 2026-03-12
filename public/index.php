@@ -2,56 +2,32 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use App\AnimalController;
 use App\AnimalRepository;
 use App\Database;
 use App\Animal;
 use App\Dog;
 use App\Cat;
 
+
+//Vytvorim PDO connection pomocou Database triedy, ktoru pouzijem na vytvorenie repository, ktora sa stara o komunikaciu s databazou a poskytuje metody pre CRUD operacie               
 $pdo = new Database();
 
+//Ziskam PDO connection z Database triedy, ktoru pouzijem na vytvorenie repository, ktora sa stara o komunikaciu s databazou a poskytuje metody pre CRUD operacie   
 $connect = $pdo->getConnection();
+
+//Vytvorim repository, ktora sa stara o komunikaciu s databazou a poskytuje metody pre CRUD operacie
 $repo = new AnimalRepository($connect);
 
-if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["adopt"]) && $_POST["adopt"] === "adopt"){
-    $id = (int)$_POST["animal_id"];
-    $repo->updateStatus($id);
-}
+//Vytvorim controller a zavolam hlavnu metodu handleRequest, ktora sa postara o spracovanie POST requestov z formularov v dashboard.php 
+$controller = new AnimalController($repo);
 
-if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["addPet"]) && $_POST["addPet"] === "addPet"){
-    $name = $_POST["fName"];
-    $type = $_POST["fType"];
-    $age = (int)($_POST["fAge"]);
-    $gender = (int)$_POST["fGender"];
-    $status = $_POST["fStatus"] === "adopt" ? 0 : 1;
-    $specParam = $_POST["fSpecParam"] === "outdoor" ? 1 : $_POST["fSpecParam"];
+//Zavolam hlavnu metodu handleRequest, ktora sa postara o spracovanie POST requestov z formularov v dashboard.php
+$controller->handleRequest();
 
- var_dump($name, $type, $age, $gender, $status, $specParam);
-
-    if($name && $type && $age && $gender && $specParam && $status){
-       
-        $pet = null;
-
-        if($type === "Dog"){
-            $pet = new Dog($name, $age, $gender, $status, $specParam);
-        }elseif($type === "Cat"){
-            $pet = new Cat($name, $age, $gender, $status, $specParam);
-        }
-
-        if($pet){
-            $repo->createPet($pet);
-     
-        }
-    }else{
-        echo "All fields are required!";
-    }
-
-}
-
-
-
-
+//Ziskam vsetky zvierata z databazy pomocou repository, ktoru pouzijem na zobrazenie v dashboard.php
 $animals = $repo->getAll();
 
+//Zobrazim dashboard, ktory zobrazuje vsetky zvierata a obsahuje formular pre pridanie noveho zvierata a tlacidla pre adopciu a odstranenie zvierat 
 include __DIR__ . '/../views/dashboard.php';
 
